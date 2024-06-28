@@ -1,30 +1,77 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <v-app class="app-background">
+    <!-- App Bar -->
+    <v-appbar />
+
+    <!-- Content Area -->
+    <v-main class="container">
+      <v-title-section />
+      <v-video-player
+        :videoUrl="videoUrl"
+        :caption="caption"
+        :preview="preview"
+      />
+      <v-container style="text-align: center">
+        <v-btn class="save-btn" size="md" rounded="xl"
+          >保存到桌面 观看更多视频</v-btn
+        >
+      </v-container>
+      <v-video-list @click="changeVideo" />
+    </v-main>
+
+    <!-- Footer -->
+    <v-appfooter />
+  </v-app>
 </template>
 
+<script lang="ts">
+import { defineComponent } from "vue";
+import AppBar from "@/components/AppBar.vue";
+import TitleSection from "@/components/TitleSection.vue";
+import VideoPlayer from "@/components/VideoPlayer.vue";
+import VideoList from "@/components/VideoList.vue";
+import AppFooter from "@/components/AppFooter.vue";
+
+export default defineComponent({
+  name: "App",
+  components: {
+    "v-appbar": AppBar,
+    "v-video-player": VideoPlayer,
+    "v-title-section": TitleSection,
+    "v-video-list": VideoList,
+    "v-appfooter": AppFooter,
+  },
+  data() {
+    return {
+      videoUrl: "",
+      caption: "",
+      preview: "",
+    };
+  },
+  methods: {
+    changeVideo(videoUrl: string, caption: string, preview: string) {
+      this.videoUrl = videoUrl;
+      this.caption = caption;
+      this.preview = preview;
+    },
+  },
+});
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+/* Add custom styles here */
+.app-background {
+  background-color: #131313;
 }
 
-nav {
-  padding: 30px;
+.container {
+  display: grid;
 }
 
-nav a {
+.save-btn {
+  font-size: 16px;
+  padding: 7px 50px;
   font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  background: linear-gradient(90deg, #61feee, #01d6be);
 }
 </style>
